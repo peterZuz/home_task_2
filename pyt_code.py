@@ -70,7 +70,7 @@ def c_resist_calculation(num_net, start_matrix):
                 if start_matrix[i][j] == 0 or final_matrix[i][j] == 0:
                     final_matrix[i][j] = 0
 
-    final_matrix = c_module.calc(final_matrix)
+    final_matrix = c_module.faster_dot(final_matrix)
 
     return final_matrix
 
@@ -117,7 +117,7 @@ def main(file_input, file_output):
     elif(py_time == 0):
         return float('inf')
 
-    return c_time/py_time
+    return py_time/c_time
 
 
 if __name__ == "__main__":

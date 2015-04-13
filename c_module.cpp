@@ -2,7 +2,7 @@
 #include <limits>
 
 extern "C" {
-	#include <Python.h>
+#include <Python.h>
 }
 
 namespace c_module
@@ -10,7 +10,7 @@ namespace c_module
 	typedef std::vector<double> row_t;
 	typedef std::vector<row_t> matrix_t;
 
-	static matrix_t res_calc(const matrix_t& M) {
+	static matrix_t dot(const matrix_t& M) {
 		
 		matrix_t final_matrix = M;
 		size_t size = M.size();
@@ -68,7 +68,7 @@ static PyObject * cxx_to_pyobject(const c_module::matrix_t &matrix)
 	return result;
 }
 
-static PyObject * matrixops_faster_res_calc(PyObject * module, PyObject * args)
+static PyObject * matrixops_faster_dot(PyObject * module, PyObject * args)
 {
 	PyObject * py_a = PyTuple_GetItem(args, 0);
 
@@ -76,7 +76,7 @@ static PyObject * matrixops_faster_res_calc(PyObject * module, PyObject * args)
 	const c_module::matrix_t a = pyobject_to_cxx(py_a);
 
 	/* Perform calculations */
-	const c_module::matrix_t result = c_module::res_calc(a);
+	const c_module::matrix_t result = c_module::dot(a);
 
 	/* Convert back to Python object */
 	PyObject * py_result = cxx_to_pyobject(result);
@@ -86,7 +86,7 @@ static PyObject * matrixops_faster_res_calc(PyObject * module, PyObject * args)
 PyMODINIT_FUNC PyInit_c_module()
 {
 	static PyMethodDef ModuleMethods[] = {
-		{ "faster_res_calc", matrixops_faster_res_calc, METH_VARARGS, "Fater matrix production" },
+		{ "faster_dot", matrixops_faster_dot, METH_VARARGS, "Fater matrix production" },
 		{ NULL, NULL, 0, NULL }
 	};
 	static PyModuleDef ModuleDef = {
